@@ -5,9 +5,11 @@
 
 #include <iostream>
 #include <thread>
+#include <chrono>
 
 using namespace std;
 using namespace cv;
+using namespace std::chrono;
 
 void detectAndDisplay( Mat frame );
 
@@ -16,6 +18,8 @@ String eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
 CascadeClassifier face_cascade;
 CascadeClassifier eyes_cascade;
 String window_name = "Capture - Face detection";
+bool isClose=false;
+milliseconds closeTime;
 
 int main( void )
 {
@@ -77,6 +81,26 @@ void detectAndDisplay( Mat frame )
             int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
             circle( frame, eye_center, radius, Scalar( 255, 0, 0 ), 4, 8, 0 );
         }
+
+        //Don't check for eye close if there are more than 2 users
+        if (faces.size()>1) {
+            isClose=false;
+            continue;
+        }
+
+        if (eyes.size()>=2 && isClose) {
+            isClose=false;
+        } else if (isClose) {
+            milliseconds curTime = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+            milliseconds difference = duration_cast<milliseconds>(curTime - closeTime);
+            if (difference.count()>=5000) {
+                cout << "Target is sleeping" << endl;
+            }
+        } else if (eyes.size()==0) {
+            closeTime= duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+            isClose=true;
+        }
+
     }
     //-- Show what you got
     imshow( window_name, frame );
