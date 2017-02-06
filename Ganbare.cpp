@@ -4,6 +4,7 @@
 #include "opencv2/imgproc.hpp"
 
 #include <iostream>
+#include <thread>
 
 using namespace std;
 using namespace cv;
