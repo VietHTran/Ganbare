@@ -18,7 +18,7 @@ String eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
 CascadeClassifier face_cascade;
 CascadeClassifier eyes_cascade;
 String window_name = "Capture - Face detection";
-bool isClose=false;
+bool isClose=false, isDisplay=false;
 milliseconds closeTime;
 
 int main( void )
@@ -88,13 +88,16 @@ void detectAndDisplay( Mat frame )
             continue;
         }
 
-        if (eyes.size()>=2 && isClose) {
+        if (eyes.size()>=2 && isDisplay) {
             isClose=false;
-        } else if (isClose) {
+            isDisplay=false;
+            cout << "Target is awake" << endl;
+        } else if (isClose && !isDisplay) {
             milliseconds curTime = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
             milliseconds difference = duration_cast<milliseconds>(curTime - closeTime);
             if (difference.count()>=5000) {
                 cout << "Target is sleeping" << endl;
+                isDisplay=true;
             }
         } else if (eyes.size()==0) {
             closeTime= duration_cast< milliseconds >(system_clock::now().time_since_epoch());
