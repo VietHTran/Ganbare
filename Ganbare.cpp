@@ -97,6 +97,7 @@ void detectAndDisplay( Mat frame )
             milliseconds difference = duration_cast<milliseconds>(curTime - closeTime);
             if (difference.count()>=5000) {
                 cout << "Target is sleeping" << endl;
+                system("firefox https://www.youtube.com/watch?v=2k0SmqbBIpQ");
                 isDisplay=true;
             }
         } else if (eyes.size()==0) {
