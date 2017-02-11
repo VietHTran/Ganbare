@@ -6,6 +6,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <curl/curl.h>
 
 using namespace std;
 using namespace cv;
@@ -97,7 +98,7 @@ void detectAndDisplay( Mat frame )
             milliseconds difference = duration_cast<milliseconds>(curTime - closeTime);
             if (difference.count()>=5000) {
                 cout << "Target is sleeping" << endl;
-                system("firefox https://www.youtube.com/watch?v=2k0SmqbBIpQ");
+                system("firefox http://plainvid.azurewebsites.net");
                 isDisplay=true;
             }
         } else if (eyes.size()==0) {
