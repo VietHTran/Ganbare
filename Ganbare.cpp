@@ -6,6 +6,8 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <string>
+#include <stdlib.h>
 #include <curl/curl.h>
 
 using namespace std;
@@ -53,9 +55,30 @@ int main( void )
     return 0;
 }
 
+void resetCheck() {
+    isClose=false; 
+    isDisplay=false;
+}
+
 /** @function detectAndDisplay */
 void detectAndDisplay( Mat frame )
 {
+    const string youtubeKeys[]={
+    //Star Wars ost
+    "cUBUlKgsNK8",
+    "bzWSJG93P8",
+    "o--bLEobBFY",
+    //HjN ost
+    "o2BE3IILRto",
+    "uD7IUpQ7EsY",
+    "3AtIhuKn2No",
+    //Others
+    "B3vqcbJwgCI",
+    "VgSMxY6asoE",
+    "8VGJGXMUhmc",
+    ""
+    };
+    int length=sizeof(youtubeKeys)/sizeof(*youtubeKeys);
     std::vector<Rect> faces;
     Mat frame_gray;
 
@@ -90,15 +113,17 @@ void detectAndDisplay( Mat frame )
         }
 
         if (eyes.size()>=2 && isDisplay) {
-            isClose=false;
-            isDisplay=false;
+            resetCheck();
             cout << "Target is awake" << endl;
         } else if (isClose && !isDisplay) {
             milliseconds curTime = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
             milliseconds difference = duration_cast<milliseconds>(curTime - closeTime);
             if (difference.count()>=5000) {
+                srand (time(NULL));
                 cout << "Target is sleeping" << endl;
-                system("firefox http://plainvid.azurewebsites.net");
+                string randKey=youtubeKeys[rand()%(length-1)];
+                string command="firefox http://plainvid.azurewebsites.net?link="+randKey;
+                system(command.c_str()); //TODO: Turn off when awake + Replace system call
                 isDisplay=true;
             }
         } else if (eyes.size()==0) {
