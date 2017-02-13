@@ -122,8 +122,8 @@ void detectAndDisplay( Mat frame )
                 srand (time(NULL));
                 cout << "Target is sleeping" << endl;
                 string randKey=youtubeKeys[rand()%(length-1)];
-                string command="firefox http://plainvid.azurewebsites.net?link="+randKey;
-                system(command.c_str()); //TODO: Turn off when awake + Replace system call
+                //string command="firefox http://plainvid.azurewebsites.net?link="+randKey;
+                //system(command.c_str()); //TODO: Turn off when awake + Replace system call
                 isDisplay=true;
             }
         } else if (eyes.size()==0) {
