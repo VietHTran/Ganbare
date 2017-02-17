@@ -137,12 +137,12 @@ void checkAwake(Mat *frame_ptr,Mat *frame_gray_ptr, VideoCapture *capture_ptr) {
     Mat frame_gray=*frame_gray_ptr;
     VideoCapture capture=*capture_ptr;
     std::vector<Rect> faces;
+    cout<<"1"<<endl;
+    capture.read(frame); cout<<"2"<<endl;
+    cvtColor( frame, frame_gray, COLOR_BGR2GRAY ); cout<<"3"<<endl;
+    equalizeHist( frame_gray, frame_gray ); cout<<"4"<<endl;
 
-    capture.read(frame);
-    cvtColor( frame, frame_gray, COLOR_BGR2GRAY );
-    equalizeHist( frame_gray, frame_gray );
-
-    face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(30, 30) );
+    face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(30, 30) ); cout<<"5"<<endl;
     if (faces.size()>1) {
         resetCheck();
     } else if (faces.size()==1) {
