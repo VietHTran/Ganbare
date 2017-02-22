@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <curl/curl.h>
 #include <thread>
+#include "strings.h"
 #include "server.h"
 
 using namespace std;
@@ -67,6 +68,11 @@ void resetCheck() {
     is_display=false;
 }
 
+void sendMessage(string message) {
+    char* charMess=(char*) message.c_str();
+    server.sendToClient(charMess);
+}
+
 /** @function detectAndDisplay */
 void detectAndDisplay( Mat frame)
 {
@@ -95,15 +101,18 @@ void detectAndDisplay( Mat frame)
 
         if (eyes.size()>=2 && is_display) {
             resetCheck();
-            cout << "Target is awake" << endl;
+            string status="Target is awake";
+            sendMessage(status);
+            cout << status << endl;
         } else if (is_close && !is_display) {
             milliseconds curTime = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
             milliseconds difference = duration_cast<milliseconds>(curTime - close_time);
             if (difference.count()>=5000) {
                 srand (time(NULL));
-                cout << "Target is sleeping" << endl;
+                string status="Target is sleeping";
+                sendMessage(status);
+                cout << status<< endl;
                 is_display=true;
-
             }
         } else if (eyes.size()==0) {
             close_time= duration_cast< milliseconds >(system_clock::now().time_since_epoch());
