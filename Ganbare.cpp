@@ -28,7 +28,7 @@ CascadeClassifier eyes_cascade;
 String window_name = "Capture - Face detection";
 bool is_close=false, is_display=false;
 milliseconds close_time;
-Server server;
+Server server(1500);
 
 int main( void )
 {
@@ -68,11 +68,6 @@ void resetCheck() {
     is_display=false;
 }
 
-void sendMessage(string message) {
-    char* charMess=(char*) message.c_str();
-    server.sendToClient(charMess);
-}
-
 /** @function detectAndDisplay */
 void detectAndDisplay( Mat frame)
 {
@@ -101,16 +96,16 @@ void detectAndDisplay( Mat frame)
 
         if (eyes.size()>=2 && is_display) {
             resetCheck();
-            string status="Target is awake";
-            sendMessage(status);
+            string status="Target is awake\n";
+            server.sendToClientStr(status);
             cout << status << endl;
         } else if (is_close && !is_display) {
             milliseconds curTime = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
             milliseconds difference = duration_cast<milliseconds>(curTime - close_time);
             if (difference.count()>=5000) {
                 srand (time(NULL));
-                string status="Target is sleeping";
-                sendMessage(status);
+                string status="Target is sleeping\n";
+                server.sendToClientStr(status);
                 cout << status<< endl;
                 is_display=true;
             }

@@ -13,14 +13,14 @@
 
 using namespace std;
 
-Server::Server() {
+Server::Server(int port_num) {
     isConnect=false;
     listener=socket(AF_INET,SOCK_STREAM,0); 
     checkError(listener,"Error initializing socket!", "Socket initialized");
 
     server_address.sin_family=AF_INET; 
     server_address.sin_addr.s_addr=htons(INADDR_ANY); 
-    server_address.sin_port=htons(SERVER_PORT);
+    server_address.sin_port=htons(port_num);
 
     int status=bind(listener,(struct sockaddr *) &server_address, sizeof(server_address)); 
     checkError(status,"Error assigning protocol address to socket","Successfully assigning protocol to socket");
@@ -49,7 +49,7 @@ void Server::closeConnection() {
 }
 
 void Server::sendToClient(char * buffer) {
-    sendMessage(connection,buffer);
+    sendMessage(connection,buffer,sizeof(buffer)/sizeof(buffer[0]));
 }
 
 void Server::sendToClientCLI() {
@@ -58,4 +58,13 @@ void Server::sendToClientCLI() {
 
 void Server::getClientMessage(char *buff) {
     getMessage(connection,buff);
+}
+
+void Server::sendToClientStr(string message) {
+    char* messgChr=(char *) message.c_str();
+    sendMessage(connection,messgChr,message.length());
+}
+
+Server::~Server() {
+    close(connection);
 }

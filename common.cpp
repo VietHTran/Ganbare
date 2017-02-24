@@ -27,6 +27,6 @@ void sendMessageCLI(int socketfd) {
     send(socketfd,buffer,5,0);
 }
 
-void sendMessage(int socketfd, char* message) {
-    send(socketfd,message,BUFF_SIZE,0);
+void sendMessage(int socketfd, char* message,int size) {
+    send(socketfd,message,size,0);
 }
