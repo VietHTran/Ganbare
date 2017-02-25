@@ -1,3 +1,0 @@
-/home/viet/Desktop/DevFile/C++/Ganbare/CMakeFiles/edit_cache.dir
-/home/viet/Desktop/DevFile/C++/Ganbare/CMakeFiles/rebuild_cache.dir
-/home/viet/Desktop/DevFile/C++/Ganbare/CMakeFiles/ganbare.dir
