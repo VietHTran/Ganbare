@@ -1,7 +1,6 @@
-#include "opencv2/objdetect.hpp"
-#include "opencv2/videoio.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/imgproc.hpp"
+#include <opencv2/objdetect.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/imgproc.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
@@ -12,7 +11,7 @@
 #include <stdlib.h>
 #include <curl/curl.h>
 #include <thread>
-#include "strings.h"
+#include <strings.h>
 #include "server.h"
 
 using namespace std;
