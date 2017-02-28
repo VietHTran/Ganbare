@@ -20,6 +20,7 @@ using namespace cv;
 using namespace std::chrono;
 
 void detectAndDisplay( Mat frame);
+void defer();
 
 string face_cascade_name = "haarcascade_frontalface_alt.xml";
 string eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
@@ -59,7 +60,6 @@ int main( void )
         char c = (char)waitKey(10);
         if( c == 27 ) { break; } // escape
     }
-    server.closeConnection();
     return 0;
 }
 
@@ -115,4 +115,8 @@ void detectAndDisplay( Mat frame)
         }
 
     }
+}
+
+void defer() {
+	server.closeConnection();
 }
