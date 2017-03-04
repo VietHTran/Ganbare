@@ -19,9 +19,11 @@ def handle_message(message):
     if data=="":
         exit()
     print("Message received: "+data)
-    if ("sleeping" in data):
+    if ("sleep" in data):
+        print("Status sent to web: 1")
         send("1")
     elif ("awake" in data):
+        print("Status sent to web: 0")
         send("0")
 
 socketio.run(app)
