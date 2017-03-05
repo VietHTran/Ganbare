@@ -20,6 +20,7 @@ using namespace std::chrono;
 
 void detectAndDisplay( Mat frame);
 void defer();
+void resetCheck();
 
 string face_cascade_name = "haarcascade_frontalface_alt.xml";
 string eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
@@ -33,7 +34,15 @@ Server server(1500);
 int main( void )
 {
     ios::sync_with_stdio(false);
-    server.waitForClient();
+    try {
+        server.waitForClient();
+    } catch (const exception &e) {
+        cout << "Error connecting to client" << endl;
+        return 1;
+    }
+    cout << "Sucessfully connect to client." << endl;
+    cout << "Ready to scan for facial expression" << endl;
+
     VideoCapture capture;
     Mat frame;
 
@@ -62,10 +71,6 @@ int main( void )
     return 0;
 }
 
-void resetCheck() {
-    is_close=false; 
-    is_display=false;
-}
 
 /** @function detectAndDisplay */
 void detectAndDisplay( Mat frame)
@@ -95,7 +100,7 @@ void detectAndDisplay( Mat frame)
 
         if (eyes.size()>=2 && is_display) {
             resetCheck();
-            string status="Target is awake\n";
+            string status="awake\n";
             server.sendToClientStr(status);
             cout << status << endl;
         } else if (is_close && !is_display) {
@@ -103,9 +108,9 @@ void detectAndDisplay( Mat frame)
             milliseconds difference = duration_cast<milliseconds>(curTime - close_time);
             if (difference.count()>=5000) {
                 srand (time(NULL));
-                string status="Target is sleeping\n";
+                string status="sleeping\n";
                 server.sendToClientStr(status);
-                cout << status<< endl;
+                cout << status << endl;
                 is_display=true;
             }
         } else if (eyes.size()==0) {
@@ -118,4 +123,9 @@ void detectAndDisplay( Mat frame)
 
 void defer() {
 	server.closeConnection();
+}
+
+void resetCheck() {
+    is_close=false; 
+    is_display=false;
 }

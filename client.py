@@ -15,7 +15,11 @@ soc.connect((TCP_IP, TCP_PORT))
 
 @socketio.on('message')
 def handle_message(message):
-    data = soc.recv(BUFFER_SIZE)
+    try:
+        data = soc.recv(BUFFER_SIZE)
+    except Exception as ex:
+        print("Error connecting with server...")
+        soc.close()
     if data=="":
         exit()
     print("Message received: "+data)
@@ -26,6 +30,10 @@ def handle_message(message):
         print("Status sent to web: 0")
         send("0")
 
-socketio.run(app)
+try:
+    socketio.run(app)
+except KeyboardInterrupt as ex: #Exit Program whenever the user presses Ctrl+C
+    print("Keyboard Interupt: exit program")
+    
 soc.close()
 
