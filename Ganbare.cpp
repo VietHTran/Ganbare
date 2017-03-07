@@ -31,8 +31,7 @@ bool is_close=false, is_display=false;
 milliseconds close_time;
 Server server(1500);
 
-int main( void )
-{
+int main( void ){
     ios::sync_with_stdio(false);
     try {
         server.waitForClient();
@@ -54,10 +53,8 @@ int main( void )
     capture.open( -1 );
     if ( ! capture.isOpened() ) { cout << "Error loading video"; return -1; }
 
-    while ( capture.read(frame) )
-    {
-        if( frame.empty() )
-        {
+    while ( capture.read(frame) ) {
+        if( frame.empty() ) {
             cout << "No capture frame";
             break;
         }
@@ -73,8 +70,7 @@ int main( void )
 
 
 /** @function detectAndDisplay */
-void detectAndDisplay( Mat frame)
-{
+void detectAndDisplay( Mat frame) {
     std::vector<Rect> faces;
     Mat frame_gray;
 
@@ -84,8 +80,7 @@ void detectAndDisplay( Mat frame)
     //-- Detect faces
     face_cascade.detectMultiScale( frame_gray, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(30, 30) );
 
-    for ( size_t i = 0; i < faces.size(); i++ )
-    {
+    for ( size_t i = 0; i < faces.size(); i++ ) {
         Mat faceROI = frame_gray( faces[i] );
         std::vector<Rect> eyes;
 

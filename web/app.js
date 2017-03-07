@@ -1,25 +1,26 @@
+//Put youtube API script to html file
 var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
+tag.src = 'https://www.youtube.com/iframe_api';
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
+getYoutubeKeys("youtubeIDs.txt");
 var socket = io.connect('http://127.0.0.1:5000');
 socket.on('connect', function connect() {
-		console.log("Sucessfully connect to Flask.");
-        socket.emit('message', "Connected to FLASK");
+		console.log('Sucessfully connect to Flask.');
+        socket.emit('message', 'Connected to FLASK');
 });
 
 socket.on('message', function (data) {
-	console.log("Data: "+data);
-	if (data==="1") {
+	console.log('Data: '+data);
+	if (data==='1') {
 		player.setVolume(80);
 		player.playVideo();
-	} else if (data==="0") {
+	} else if (data==='0') {
 		player.pauseVideo();
 	} else {
-		console.log("Unrecognized data");
+		console.log('Unrecognized data');
 	}
-    socket.emit('message', "send next");
+    socket.emit('message', 'send next');
 });
 
 //Youtube API stuff
@@ -39,5 +40,6 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
     event.target.setVolume(80);
     event.target.playVideo();
+    event.target.pauseVideo();
 }
 
