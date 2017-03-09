@@ -18,14 +18,12 @@ function watch {
 
 function initdict {
 	watch "sh"
-        watch "c"
-        watch "cpp"
-        watch "h"
-	watch "java"
+    watch "c"
+    watch "cpp"
+    watch "h"
 	watch "py"
 	watch "pyc"
 	watch "xml"
-	watch "cs"
 	watch "xaml"
 	watch "txt"
 	watch "gitignore"
@@ -33,6 +31,9 @@ function initdict {
 	watch "dll"
 	watch "js"
 	watch "html"
+	watch "pro"
+	watch "qrc"
+    watch "ui"
 }
 
 #Check file's extension
