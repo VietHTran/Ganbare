@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>haarcascade_eye_tree_eyeglasses.xml</file>
-        <file>haarcascade_frontalface_alt.xml</file>
+        <file>web/video.html</file>
+        <file>web/app.js</file>
     </qresource>
 </RCC>

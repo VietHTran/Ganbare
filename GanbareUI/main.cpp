@@ -20,8 +20,8 @@ using namespace std::chrono;
 void detectAndDisplay( Mat frame );
 void resetCheck();
 
-string face_cascade_name = "qrc:/haarcascade_frontalface_alt.xml";
-string eyes_cascade_name = "qrc:/haarcascade_eye_tree_eyeglasses.xml";
+string face_cascade_name = "../haarcascade_frontalface_alt.xml";
+string eyes_cascade_name = "../haarcascade_eye_tree_eyeglasses.xml";
 CascadeClassifier face_cascade;
 CascadeClassifier eyes_cascade;
 string window_name = "Capture - Face detection";
@@ -31,9 +31,15 @@ RNG rng(12345);
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+
+    QUrl url;
+    url=QUrl("qrc:///web/video.html");
+    //url=QUrl("http://plainvid.azurewebsites.net/"); //debug
+    MainWindow *window = new MainWindow(url);
+    window->show();
+
     VideoCapture capture;
     Mat frame;
 

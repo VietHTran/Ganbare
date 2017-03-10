@@ -1,12 +1,14 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "mainwindow.h"
+#include <QtWidgets>
+#include <QtWebEngineWidgets>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow){
-    ui->setupUi(this);
+MainWindow::MainWindow(const QUrl& url) {
+    view = new QWebEngineView(this);
+    view->load(url);
+    setCentralWidget(view);
 }
 
 MainWindow::~MainWindow() {
-    delete ui;
+    delete view;
 }
