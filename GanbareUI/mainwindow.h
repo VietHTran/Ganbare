@@ -6,12 +6,18 @@
 
 class QWebEngineView;
 
+namespace Ui {
+class MainWindow;
+}
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
+
 public:
-    MainWindow(const QUrl& url);
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
 private:
-    QWebEngineView* view;
+    Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <errno.h>
+#include <thread>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -19,14 +20,11 @@ int main(int argc, char *argv[])
 {
     ios_base::sync_with_stdio(false);
 
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
-    QUrl url;
-    url=QUrl("qrc:///web/video.html");
-    //url=QUrl("http://plainvid.azurewebsites.net/"); //debug
-    MainWindow *window = new MainWindow(url);
-    window->show();
+    return a.exec(); //debug
 
     pid_t pID = fork();
     if (pID==0) {
@@ -50,14 +48,14 @@ int main(int argc, char *argv[])
         status=connect(sockfd,(struct sockaddr *) &server_address, sizeof(server_address));
         checkError(status,"Error connecting server","Successfully connecting to server");
     } while (status==-1);
-    bool is_off=false;
-    while (!is_off) {
-        char buffer[BUFF_SIZE];
-        getMessage(sockfd,buffer);
-    }
+//    bool is_off=false;
+//    while (!is_off) {
+//        char buffer[BUFF_SIZE];
+//        getMessage(sockfd,buffer);
+//    }
 
-    cout << "Closing connection..." << endl;
-    close(sockfd);
+//    cout << "Closing connection..." << endl;
+//    close(sockfd);
 
     return a.exec();
 }
