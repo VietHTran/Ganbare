@@ -11,10 +11,12 @@ LIBS += -L/usr/local/lib -lopencv_shape -lopencv_stitching -lopencv_objdetect -l
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-        ../common.cpp
+        ../common.cpp \
+    opencvcontroller.cpp
 
 HEADERS  += mainwindow.h \
-    ../headers/common.h
+    ../headers/common.h \
+    opencvcontroller.h
 
 FORMS    += mainwindow.ui
 
