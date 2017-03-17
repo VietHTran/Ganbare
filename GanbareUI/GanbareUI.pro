@@ -1,4 +1,4 @@
-QT       += core gui opengl webenginewidgets
+QT       += core gui opengl webenginewidgets websockets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,12 +11,12 @@ LIBS += -L/usr/local/lib -lopencv_shape -lopencv_stitching -lopencv_objdetect -l
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-        ../common.cpp \
-    opencvcontroller.cpp
+    opencvcontroller.cpp \
+    qtserver.cpp
 
 HEADERS  += mainwindow.h \
-    ../headers/common.h \
-    opencvcontroller.h
+    opencvcontroller.h \
+    qtserver.h
 
 FORMS    += mainwindow.ui
 

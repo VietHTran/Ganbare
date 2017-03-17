@@ -1,6 +1,7 @@
 #ifndef OPENCVCONTROLLER_H
 #define OPENCVCONTROLLER_H
 #include <QObject>
+#include "qtserver.h"
 
 class OpenCVController : public QObject {
     Q_OBJECT
@@ -12,6 +13,9 @@ public:
 
 public slots:
     void runOpenCV();
+
+private:
+    QtServer* server;
 };
 
 #endif // OPENCVCONTROLLER_H

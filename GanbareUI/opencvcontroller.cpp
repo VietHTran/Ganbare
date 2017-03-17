@@ -11,12 +11,13 @@
 #include <curl/curl.h>
 
 #include "opencvcontroller.h"
+#include "qtserver.h"
 
 using namespace std;
 using namespace cv;
 using namespace std::chrono;
 
-void detectAndDisplay( Mat frame );
+void detectAndDisplay( Mat frame, QtServer* server );
 void resetCheck();
 
 string face_cascade_name = "../haarcascade_frontalface_alt.xml";
@@ -30,10 +31,11 @@ RNG rng(12345);
 
 OpenCVController::OpenCVController() {
     is_off=true;
+    server= new QtServer(1234);
 }
 
 OpenCVController::~OpenCVController() {
-
+    delete server;
 }
 
 void OpenCVController::runOpenCV() {
@@ -60,12 +62,12 @@ void OpenCVController::runOpenCV() {
             cout << "No capture frame";
             break;
         }
-        detectAndDisplay(frame);
+        detectAndDisplay(frame,server);
     }
     cout << "Exit OpenCV" << endl;
 }
 
-void detectAndDisplay( Mat frame ) {
+void detectAndDisplay( Mat frame, QtServer* server ) {
     std::vector<Rect> faces;
     Mat frame_gray;
     cvtColor( frame, frame_gray, CV_BGR2GRAY );
@@ -87,15 +89,15 @@ void detectAndDisplay( Mat frame ) {
         //Checking if face has 2 eyes
         if (eyes.size()>=2 && is_display) {
             resetCheck();
-            string status="awake";
-            cout << status << endl;
+            cout << "awake" << endl;
+            server->sendMessage("0");
         } else if (is_close && !is_display) {
             milliseconds curTime = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
             milliseconds difference = duration_cast<milliseconds>(curTime - close_time);
             if (difference.count()>=5000) {
                 srand (time(NULL));
-                string status="sleeping";
-                cout << status << endl;
+                cout << "sleeping" << endl;
+                server->sendMessage("1");
                 is_display=true;
             }
         } else if (eyes.size()==0) {

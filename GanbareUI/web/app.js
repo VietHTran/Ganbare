@@ -3,25 +3,43 @@ var tag = document.createElement('script');
 tag.src = 'https://www.youtube.com/iframe_api';
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-getYoutubeKeys("youtubeIDs.txt");
-var socket = io.connect('http://127.0.0.1:5000');
-socket.on('connect', function connect() {
-		console.log('Sucessfully connect to Flask.');
-        socket.emit('message', 'Connected to FLASK');
-});
 
-socket.on('message', function (data) {
-	console.log('Data: '+data);
-	if (data==='1') {
-		player.setVolume(80);
-		player.playVideo();
-	} else if (data==='0') {
-		player.pauseVideo();
-	} else {
-		console.log('Unrecognized data');
-	}
-    socket.emit('message', 'send next');
-});
+var uri = 'ws://localhost:1234';
+var webSocket=null;
+var isConnected=false;
+
+function initSocket() {
+    //console.log("Run");
+    try {
+        if (typeof MozWebSocket=='function') {
+            WebSocket=MozWebSocket;
+        }
+        if (webSocket && webSocket.readyState===1) {
+            webSocket.close();
+        }
+        webSocket= new WebSocket(uri);
+        webSocket.onopen=function(e){
+            console.log('connected');
+            isConnected=true;
+        }
+        webSocket.onclose=function(e){
+            //console.log('disconnected');
+        }
+        webSocket.onmessage = function (e) {
+            console.log('Message: '+evt.data);
+            if (evt.data==="1") {
+                player.setVolume(80);
+                player.playVideo();
+            } else if (evt.data==="0") {
+                player.pauseVideo();
+            } else {
+                console.log('Data not recognized');
+            }
+        }
+    } catch (exception) {
+        console.log('Error: '+exception);
+    }
+}
 
 //Youtube API stuff
 
@@ -39,7 +57,7 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
     event.target.setVolume(80);
-    event.target.playVideo();
     event.target.pauseVideo();
+    initSocket();
 }
 
