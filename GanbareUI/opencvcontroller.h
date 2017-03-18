@@ -2,6 +2,7 @@
 #define OPENCVCONTROLLER_H
 #include <QObject>
 #include "qtserver.h"
+#include "chatserver.h"
 
 class OpenCVController : public QObject {
     Q_OBJECT

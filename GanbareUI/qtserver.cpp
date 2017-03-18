@@ -1,20 +1,25 @@
-#include <QObject>
-#include <QWebSocketServer>
-#include <QWebSocket>
-
+#include "qtserver.h"
+#include "QtWebSockets/QWebSocketServer"
+#include "QtWebSockets/QWebSocket"
+#include <QtCore/QDebug>
+#include <stdio.h>
 #include <iostream>
 
-#include "qtserver.h"
+QT_USE_NAMESPACE
 
 using namespace std;
 
 QtServer::QtServer(quint16 port, QObject *parent) :
     QObject(parent), server(Q_NULLPTR){
-    server= new QWebSocketServer("server",QWebSocketServer::NonSecureMode, this);
+    is_connected=false;
+    server= new QWebSocketServer(QStringLiteral("Server"),
+                                 QWebSocketServer::NonSecureMode,
+                                 this);
     client = Q_NULLPTR;
-    if (server->listen(QHostAddress::Any),port) {
-        cout << "Listeniing to port " << port << endl;
-        connect(server,&QWebSocketServer::newConnection,this,&QtServer::onNewConnection);
+    if (server->listen(QHostAddress::Any,port)) {
+        cout << "Listening to port " << port << endl;
+        connect(server,&QWebSocketServer::newConnection,
+                this,&QtServer::onNewConnection);
     }
 }
 
@@ -30,9 +35,11 @@ void QtServer::onNewConnection() {
         cout << "Connection is currently busy" << endl;
         return;
     }
+    cout << "connected" << endl;
     is_connected=true;
     client = server->nextPendingConnection();
     connect(client,&QWebSocket::disconnected,this,&QtServer::socketDisconnected);
+    connect(client,&QWebSocket::textFrameReceived,this,&QtServer::processMessage);
 }
 
 void QtServer::socketDisconnected() {
@@ -46,4 +53,8 @@ void QtServer::sendMessage(QString message) {
         return;
     }
     client->sendTextMessage(message);
+}
+
+void QtServer::processMessage(QString message) {
+    printf("Message received %s",message.toUtf8().constData());
 }

@@ -1,9 +1,12 @@
 #ifndef QTSERVER_H
 #define QTSERVER_H
 
-#include <QObject>
-#include <QWebSocketServer>
-#include <QWebSocket>
+#include <QtCore/QObject>
+#include <QtCore/QByteArray>
+
+
+QT_FORWARD_DECLARE_CLASS(QWebSocketServer)
+QT_FORWARD_DECLARE_CLASS(QWebSocket)
 
 class QtServer : public QObject {
     Q_OBJECT
@@ -13,6 +16,7 @@ public:
     void sendMessage(QString message);
 private Q_SLOTS:
     void onNewConnection();
+    void processMessage(QString message);
     void socketDisconnected();
 private:
     bool is_connected;
