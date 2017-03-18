@@ -19,7 +19,6 @@ private Q_SLOTS:
     void processMessage(QString message);
     void socketDisconnected();
 private:
-    bool is_connected;
     QWebSocketServer* server;
     QWebSocket* client;
 };

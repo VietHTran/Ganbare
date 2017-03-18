@@ -6,6 +6,7 @@
 #include <QThread>
 
 #include "opencvcontroller.h"
+#include "qtserver.h"
 
 class QWebEngineView;
 
@@ -20,6 +21,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void sendMessage(QString message);
+
 private slots:
     void handleButton();
 
@@ -28,6 +32,7 @@ private:
     QPushButton *start_btn;
     OpenCVController* controller;
     QThread scanner;
+    QtServer* server;
     bool is_run;
 
 signals:

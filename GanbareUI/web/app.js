@@ -26,11 +26,11 @@ function initSocket() {
             //console.log('disconnected');
         }
         webSocket.onmessage = function (e) {
-            console.log('Message: '+evt.data);
-            if (evt.data==="1") {
-                player.setVolume(80);
+            console.log('Message: '+e.data);
+            if (e.data==="1") {
+                player.setVolume(100);
                 player.playVideo();
-            } else if (evt.data==="0") {
+            } else if (e.data==="0") {
                 player.pauseVideo();
             } else {
                 console.log('Data not recognized');
