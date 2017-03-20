@@ -4,8 +4,8 @@ find_package( OpenCV REQUIRED )
 find_package( Threads )
 
 #Change 2 below directories based on where you install socket.io
-set(SOCKET_IO_INCLUDE_DIRS "/home/viet/socket.io-client-cpp/build/include")
-set(SOCKET_IO_LIBS "/home/viet/socket.io-client-cpp/build/lib")
+set(SOCKET_IO_INCLUDE_DIRS "~/socket.io-client-cpp/build/include")
+set(SOCKET_IO_LIBS "/home/<username>/socket.io-client-cpp/build/lib") #change path manually
 set(SELF_INCLUDE_LIBS "${CMAKE_CURRENT_SOURCE_DIR}/headers")
 
 include_directories( ${OpenCV_INCLUDE_DIRS} ${SOCKET_IO_INCLUDE_DIRS} ${SELF_INCLUDE_LIBS})

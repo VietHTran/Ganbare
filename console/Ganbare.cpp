@@ -22,8 +22,8 @@ void detectAndDisplay( Mat frame);
 void defer();
 void resetCheck();
 
-string face_cascade_name = "haarcascade_frontalface_alt.xml";
-string eyes_cascade_name = "haarcascade_eye_tree_eyeglasses.xml";
+string face_cascade_name = "../cascade/haarcascade_frontalface_alt.xml";
+string eyes_cascade_name = "../cascade/haarcascade_eye_tree_eyeglasses.xml";
 CascadeClassifier face_cascade;
 CascadeClassifier eyes_cascade;
 String window_name = "Capture - Face detection";

@@ -3,7 +3,6 @@ var tag = document.createElement('script');
 tag.src = 'https://www.youtube.com/iframe_api';
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-getYoutubeKeys("youtubeIDs.txt");
 var socket = io.connect('http://127.0.0.1:5000');
 socket.on('connect', function connect() {
 		console.log('Sucessfully connect to Flask.');
