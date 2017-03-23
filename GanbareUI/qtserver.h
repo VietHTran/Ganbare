@@ -14,13 +14,13 @@ public:
     explicit QtServer(quint16 port, QObject *parent = Q_NULLPTR);
     virtual ~QtServer();
     void sendMessage(QString message);
+    QWebSocket* client;
 private Q_SLOTS:
     void onNewConnection();
     void processMessage(QString message);
     void socketDisconnected();
 private:
     QWebSocketServer* server;
-    QWebSocket* client;
 };
 
 #endif // QTSERVER_H

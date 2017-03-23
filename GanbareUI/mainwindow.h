@@ -26,10 +26,13 @@ public slots:
 
 private slots:
     void handleButton();
+    void loadPage();
 
 private:
-    Ui::MainWindow *ui;
-    QPushButton *start_btn;
+    Ui::MainWindow* ui;
+    QPushButton* start_btn;
+    QPushButton* load_btn;
+    QLineEdit* ytkey_box;
     OpenCVController* controller;
     QThread scanner;
     QtServer* server;

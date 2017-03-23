@@ -41,7 +41,9 @@ void QtServer::onNewConnection() {
 }
 
 void QtServer::socketDisconnected() {
+    cout << "disconnected" << endl;
     delete client;
+    client=Q_NULLPTR;
 }
 
 void QtServer::sendMessage(QString message) {

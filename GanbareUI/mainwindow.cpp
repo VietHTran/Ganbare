@@ -7,6 +7,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include <iostream>
+#include <string>
 #include <unistd.h>
 #include <thread>
 
@@ -33,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this,SIGNAL(operateController()),controller,SLOT(runOpenCV()));
     connect(controller,SIGNAL(onStateChanged(QString)),this,SLOT(sendMessage(QString)));
     scanner.start();
+
+    load_btn=ui->load_btn;
+    ytkey_box=ui->ytkey_box;
+    connect(load_btn,SIGNAL(released()),this,SLOT(loadPage()));
 }
 
 void MainWindow::sendMessage(QString message) {
@@ -43,6 +48,8 @@ MainWindow::~MainWindow() {
     delete ui;
     delete start_btn;
     delete controller;
+    delete load_btn;
+    delete ytkey_box;
     scanner.quit();
     delete &scanner;
     delete server;
@@ -57,5 +64,16 @@ void MainWindow::handleButton() {
         start_btn->setText("Stop");
         is_run=true;
         emit operateController();
+    }
+}
+
+void MainWindow::loadPage() {
+    std::string key=ytkey_box->text().toUtf8().toStdString();
+    if (!key.empty()) {
+        server->sendMessage("2");
+        key="qrc:///web/video.html?key="+key;
+        QString url_str{key.c_str()};
+        QUrl url{url_str};
+        ui->video->load(url);
     }
 }

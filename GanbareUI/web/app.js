@@ -8,8 +8,17 @@ var uri = 'ws://localhost:1234';
 var webSocket=null;
 var isConnected=false;
 
+function getQuery(name) {
+    var url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 function initSocket() {
-    //console.log("Run");
     try {
         if (typeof MozWebSocket=='function') {
             WebSocket=MozWebSocket;
@@ -23,15 +32,17 @@ function initSocket() {
             isConnected=true;
         }
         webSocket.onclose=function(e){
-            //console.log('disconnected');
+            console.log('disconnected');
         }
         webSocket.onmessage = function (e) {
             console.log('Message: '+e.data);
-            if (e.data==="1") {
+            if (e.data==='1') {
                 player.setVolume(100);
                 player.playVideo();
-            } else if (e.data==="0") {
+            } else if (e.data==='0') {
                 player.pauseVideo();
+            } else if (e.data==='2') {
+                webSocket.close();
             } else {
                 console.log('Data not recognized');
             }
@@ -41,6 +52,12 @@ function initSocket() {
     }
 }
 
+var key = getQuery('key');
+if (key === '' || key === null) {
+    key='o2BE3IILRto';
+}
+console.log('key: '+key);
+
 //Youtube API stuff
 
 var player;
@@ -48,7 +65,7 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         height: '390',
         width: '640',
-        videoId: 'o2BE3IILRto',
+        videoId: key,
         events: {
             'onReady': onPlayerReady
         }
